@@ -12,24 +12,48 @@ const ScrollReveal = ({ children, direction = "up", delay = 0, className = "" }:
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // Check if already in viewport on mount
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      if (rect.top < windowHeight * 0.9 && rect.bottom > 0) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Also try IntersectionObserver as backup
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
     );
+    observer.observe(el);
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const transforms: Record<string, string> = {
-    up: "translateY(40px)",
-    down: "translateY(-40px)",
-    left: "translateX(40px)",
-    right: "translateX(-40px)",
+    up: "translateY(50px)",
+    down: "translateY(-50px)",
+    left: "translateX(50px)",
+    right: "translateX(-50px)",
   };
 
   return (
@@ -39,7 +63,8 @@ const ScrollReveal = ({ children, direction = "up", delay = 0, className = "" }:
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translate(0)" : transforms[direction],
-        transition: `opacity 0.7s ease-out ${delay}ms, transform 0.7s ease-out ${delay}ms`,
+        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+        willChange: "opacity, transform",
       }}
     >
       {children}
