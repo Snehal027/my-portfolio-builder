@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const projects = [
   {
@@ -26,48 +27,49 @@ const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center">
-          Featured <span className="text-gradient">Projects</span>
-        </h2>
-        <p className="text-muted-foreground text-center mb-16 max-w-lg mx-auto">
-          Real-world analytics solutions delivering business impact
-        </p>
+        <ScrollReveal>
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center">
+            Featured <span className="text-gradient">Projects</span>
+          </h2>
+          <p className="text-muted-foreground text-center mb-16 max-w-lg mx-auto">
+            Real-world analytics solutions delivering business impact
+          </p>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.title}
-              className="group p-8 rounded-xl bg-card border border-border hover:border-primary/40 transition-all duration-500 hover:glow-border relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full" />
-              
-              <p className="font-mono text-primary text-xs mb-1">{project.period}</p>
-              <h3 className="text-xl font-bold text-foreground mb-1 flex items-center gap-2">
-                {project.title}
-                <ArrowUpRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">{project.client}</p>
-              <p className="text-secondary-foreground text-sm leading-relaxed mb-5">{project.description}</p>
+          {projects.map((project, i) => (
+            <ScrollReveal key={project.title} delay={i * 200} direction={i === 0 ? "left" : "right"}>
+              <div className="group p-8 rounded-xl bg-card border border-border hover:border-primary/40 transition-all duration-500 hover:glow-border relative overflow-hidden hover:-translate-y-2 h-full">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full transition-all duration-500 group-hover:w-40 group-hover:h-40" />
 
-              {project.highlights && (
-                <ul className="mb-5 space-y-1">
-                  {project.highlights.map((h) => (
-                    <li key={h} className="text-sm text-muted-foreground flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {h}
-                    </li>
+                <p className="font-mono text-primary text-xs mb-1">{project.period}</p>
+                <h3 className="text-xl font-bold text-foreground mb-1 flex items-center gap-2">
+                  {project.title}
+                  <ArrowUpRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4">{project.client}</p>
+                <p className="text-secondary-foreground text-sm leading-relaxed mb-5">{project.description}</p>
+
+                {project.highlights && (
+                  <ul className="mb-5 space-y-1">
+                    {project.highlights.map((h) => (
+                      <li key={h} className="text-sm text-muted-foreground flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="text-xs font-mono px-2.5 py-1 rounded-md bg-secondary text-primary">
+                      {tag}
+                    </span>
                   ))}
-                </ul>
-              )}
-
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span key={tag} className="text-xs font-mono px-2.5 py-1 rounded-md bg-secondary text-primary">
-                    {tag}
-                  </span>
-                ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

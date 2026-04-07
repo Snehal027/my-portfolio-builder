@@ -5,7 +5,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .dark {
     --background: 220 25% 6%;
     --foreground: 200 20% 90%;
 
@@ -46,6 +47,51 @@
     --sidebar-ring: 185 80% 50%;
 
     --glow: 185 80% 50%;
+    --particle-color: #22d3ee;
+  }
+
+  .light {
+    --background: 210 30% 98%;
+    --foreground: 220 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
+
+    --primary: 185 80% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 93%;
+    --secondary-foreground: 220 25% 20%;
+
+    --muted: 210 15% 92%;
+    --muted-foreground: 215 15% 45%;
+
+    --accent: 185 80% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 185 80% 40%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 25% 12%;
+    --sidebar-primary: 185 80% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 93%;
+    --sidebar-accent-foreground: 220 25% 12%;
+    --sidebar-border: 214 20% 88%;
+    --sidebar-ring: 185 80% 40%;
+
+    --glow: 185 80% 40%;
+    --particle-color: #0891b2;
   }
 }
 
@@ -61,18 +107,23 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-cyan-300 bg-clip-text text-transparent;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(185 90% 70%));
+  }
+
+  .light .text-gradient {
+    background-image: linear-gradient(135deg, hsl(185 80% 35%), hsl(200 90% 45%));
   }
 
   .glow-border {
     box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
   }
 
-  .section-fade {
-    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  .light .glow-border {
+    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.15);
   }
+}
 
-  .section-fade.visible {
-    @apply opacity-100 translate-y-0;
-  }
+html {
+  scroll-behavior: smooth;
 }
